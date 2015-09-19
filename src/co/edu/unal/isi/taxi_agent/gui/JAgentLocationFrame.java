@@ -1,7 +1,6 @@
 package co.edu.unal.isi.taxi_agent.gui;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -13,7 +12,7 @@ public class JAgentLocationFrame extends JFrame {
 	public JAgentLocationFrame(int rows, int cols) {
 		super("Agent Location");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.ambient = new JAmbient(rows, cols);
+		this.ambient = new JAmbient(JAmbient.SETTING_TAXI_AGENT, rows, cols, this);
 
 		add(labelSelectLocation, BorderLayout.NORTH);
 		add(ambient, BorderLayout.CENTER);

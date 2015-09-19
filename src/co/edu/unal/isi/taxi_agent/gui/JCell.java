@@ -6,31 +6,38 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-public class JCell extends JPanel implements MouseListener {
+public class JCell extends JPanel {
 
-	public static final int DISABLED = 0;
-	public static final int SETTING_TAXI_AGENT = 1;
-	public static final int SETTING_REQUESTS = 2;
-	public static final int SETTING_DESTINY = 3;
-	
-	public static final Color DISABLED_COLOR = Color.WHITE;
-	public static final Color ROAD_COLOR = Color.GRAY;
-	public static final Color REQUEST_COLOR = Color.RED;
-	public static final Color TAXI_AGENT_COLOR = Color.BLUE;
 	private int width, height;
+	private int i, j;
 	//private Color color;
 	private int state;
 	JAmbient ambient;
 	
 	public JCell(int state, int width, int height, JAmbient ambient) {
+		//setColor(DISABLED_COLOR);
 		this.state = state;
 		this.width = width;
 		this.height = height;
 		this.ambient = ambient;
-		addMouseListener(this);
+		//addMouseListener(this);
 		setSize(this.width, this.height);
 	}
 	
+	public void setCoordinate(int i, int j) {
+		this.i = i;
+		this.j = j;
+	}
+	
+	public int getI() {
+		return i;
+	}
+	
+	public int getJ() {
+		return j;
+	}
+	
+	/**
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		switch (state) {
@@ -67,5 +74,5 @@ public class JCell extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {	}
-
+	**/
 }

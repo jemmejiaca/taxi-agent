@@ -79,7 +79,7 @@ public class JInitialFrame extends JFrame implements ActionListener {
 			String strcols = fieldCols.getText();
 			int rows = Integer.parseInt(strrows);
 			int cols = Integer.parseInt(strcols);
-			System.out.printf("rows: %d, cols: %d", rows, cols);
+			System.out.printf("rows: %d, cols: %d\n", rows, cols);
 			if(radioButtonKnown.isSelected()) {
 				this.setVisible(false);
 				JAgentLocationFrame agentLocationFrame = 
