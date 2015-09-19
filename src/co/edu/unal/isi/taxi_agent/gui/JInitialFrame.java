@@ -1,0 +1,71 @@
+package co.edu.unal.isi.taxi_agent.gui;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+public class JInitialFrame extends JFrame {
+	
+	private JLabel labelTitle = new JLabel("Taxi Agent Simulator");
+	private JLabel labelSize = new JLabel("Size of the world");
+	private JLabel labelRows = new JLabel("Rows:");
+	private JLabel labelCols = new JLabel("Columns:");
+	private JLabel labelRequestType = new JLabel("Request type");
+	
+	private JTextField fieldRows = new JTextField(3);
+	private JTextField fieldCols = new JTextField(3);
+	
+	private JRadioButton radioButtonKnown = new JRadioButton("Known");
+	private JRadioButton radioButtonUnknown = new JRadioButton("Unknown");
+	
+	private JButton buttonOK = new JButton("OK");
+	
+	private JPanel panelSize = new JPanel(new FlowLayout());
+	private JPanel panelRequest = new JPanel(new FlowLayout());
+	private JPanel panelInitInfo = new JPanel(new GridLayout(4, 1, 2, 2));
+	
+	private ButtonGroup group = new ButtonGroup();
+	
+	public JInitialFrame() {
+		super("Taxi Agent Simulator");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		
+		panelSize.add(labelRows);
+		panelSize.add(fieldRows);
+		panelSize.add(labelCols);
+		panelSize.add(fieldCols);
+		
+		group.add(radioButtonKnown);
+		group.add(radioButtonUnknown);
+		
+		panelRequest.add(radioButtonKnown);
+		panelRequest.add(radioButtonUnknown);
+		
+		//panelInitInfo.add(labelTitle);
+		panelInitInfo.add(labelSize);
+		panelInitInfo.add(panelSize);
+		panelInitInfo.add(labelRequestType);
+		panelInitInfo.add(panelRequest);
+		
+		add(labelTitle, BorderLayout.NORTH);
+		add(panelInitInfo, BorderLayout.CENTER);
+		add(buttonOK, BorderLayout.SOUTH);
+		//pack();
+	}
+	
+	public static void main(String[] args) {
+		JInitialFrame frame = new JInitialFrame();
+		frame.setSize(300, 180);
+		frame.setVisible(true);
+	}
+
+}
