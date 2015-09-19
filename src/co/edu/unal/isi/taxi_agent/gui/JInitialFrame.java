@@ -3,6 +3,8 @@ package co.edu.unal.isi.taxi_agent.gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -12,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class JInitialFrame extends JFrame {
+public class JInitialFrame extends JFrame implements ActionListener {
 	
 	private JLabel labelTitle = new JLabel("Taxi Agent Simulator");
 	private JLabel labelSize = new JLabel("Size of the world");
@@ -56,6 +58,7 @@ public class JInitialFrame extends JFrame {
 		panelInitInfo.add(labelRequestType);
 		panelInitInfo.add(panelRequest);
 		
+		buttonOK.addActionListener(this);
 		add(labelTitle, BorderLayout.NORTH);
 		add(panelInitInfo, BorderLayout.CENTER);
 		add(buttonOK, BorderLayout.SOUTH);
@@ -66,6 +69,25 @@ public class JInitialFrame extends JFrame {
 		JInitialFrame frame = new JInitialFrame();
 		frame.setSize(300, 180);
 		frame.setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		if(source == buttonOK) {
+			String strrows = fieldRows.getText();
+			String strcols = fieldCols.getText();
+			int rows = Integer.parseInt(strrows);
+			int cols = Integer.parseInt(strcols);
+			System.out.printf("rows: %d, cols: %d", rows, cols);
+			if(radioButtonKnown.isSelected()) {
+				this.setVisible(false);
+				JAgentLocationFrame agentLocationFrame = 
+						new JAgentLocationFrame(rows, cols); 
+				agentLocationFrame.setVisible(true);
+				agentLocationFrame.setSize(500, 500);
+			}
+		}
 	}
 
 }

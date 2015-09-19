@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-public class Cell extends JPanel implements MouseListener {
+public class JCell extends JPanel implements MouseListener {
 
 	public static final int DISABLED = 0;
 	public static final int SETTING_TAXI_AGENT = 1;
@@ -20,9 +20,9 @@ public class Cell extends JPanel implements MouseListener {
 	private int width, height;
 	//private Color color;
 	private int state;
-	Ambient ambient;
+	JAmbient ambient;
 	
-	public Cell(int state, int width, int height, Ambient ambient) {
+	public JCell(int state, int width, int height, JAmbient ambient) {
 		this.state = state;
 		this.width = width;
 		this.height = height;
