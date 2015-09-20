@@ -20,16 +20,20 @@ public class JAmbient extends JPanel implements MouseListener {
 
 	public static final Color DISABLED_COLOR = Color.WHITE;
 	public static final Color ROAD_COLOR = Color.DARK_GRAY;
-	public static final Color REQUEST_COLOR = Color.RED;
+	public static final Color ORIGIN_COLOR = Color.RED;
+	public static final Color DESTINY_COLOR = Color.YELLOW;
 	public static final Color TAXI_AGENT_COLOR = Color.BLUE;
 	public static final int GAP = 2;
+	public static final int ESTABLISHED_ORIGIN = 1;
 
 	private int rows;
 	private int cols;
-	private int state;
+	private int state, requestState;
 	private JCell[][] grid;
 	private ArrayList<JCell> road = new ArrayList<JCell>();
+	private ArrayList<Request> requests = new ArrayList<Request>();
 	private JInitialFrame initialFrame;
+	
 
 	public JAmbient(int state, int rows, int cols, JInitialFrame initialFrame) {
 		this.state = state;
@@ -39,7 +43,7 @@ public class JAmbient extends JPanel implements MouseListener {
 		this.rows = rows;
 		this.cols = cols;
 		grid = new JCell[rows][cols];
-
+		this.requestState = BLOCKED;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				grid[i][j] = new JCell(20, 20, this);
@@ -72,25 +76,30 @@ public class JAmbient extends JPanel implements MouseListener {
 				int i = selectedPanel.getI();
 				int j = selectedPanel.getJ();
 
-				grid[i][j].setBackground(Color.RED);
+				grid[i][j].setBackground(TAXI_AGENT_COLOR);
 				setState(BLOCKED);
 				
 			}
 		} else if (state == SETTING_REQUESTS) {
-			int numOfRequests = 
-					initialFrame.getRequestsLocationFrame().getNumberOfRequests();
-			Request[] requests = new Request[numOfRequests];
-			for (int i = 0; i < numOfRequests; i++) {
-				JCell originCell = (JCell) e.getSource();
-				int i_o = originCell.getI(), j_o = originCell.getJ();
-				grid[i_o][j_o].setBackground(Color.BLUE);
-				JCell destinyCell = (JCell) e.getSource();
-				int i_f = destinyCell.getI(), j_f = destinyCell.getJ();
-				grid[i_o][j_o].setBackground(Color.YELLOW);
-				//String strPassengers = JOptionPane.showInputDialog(this, "Enter the number of passengers:");
-				//int numOfPassengers = Integer.parseInt(strPassengers);
-				//requests[i] = new Request(i_o, j_o, numOfPassengers, i_f, j_f);
-				//System.out.println("req loaded");
+			int iOrigin = 0, jOrigin = 0, numOfPassengers, iFinal, jFinal;
+			Object source = e.getSource();
+			if (source instanceof JCell) {
+				int i = ((JCell) source).getI(), j = ((JCell) source).getJ();
+				if (grid[i][j].getBackground().equals(ROAD_COLOR) && requestState == BLOCKED) {
+					grid[i][j].setBackground(ORIGIN_COLOR);
+					requestState = ESTABLISHED_ORIGIN;
+					iOrigin = i; jOrigin = j;
+				}
+				else if (grid[i][j].getBackground().equals(ROAD_COLOR) && requestState == ESTABLISHED_ORIGIN) {
+					grid[i][j].setBackground(DESTINY_COLOR);
+					requestState = BLOCKED;
+					iFinal = i; jFinal = j;
+					numOfPassengers = Integer.parseInt(
+							JOptionPane.showInputDialog(
+									this, "Enter the number of passengers:"));
+					requests.add(new Request(iOrigin, jOrigin, numOfPassengers, iFinal, jFinal));
+					System.out.printf("Added request: %d %d %d %d %d", iOrigin, jOrigin, numOfPassengers, iFinal, jFinal);
+				}
 			}
 		}
 
