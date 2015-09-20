@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import co.edu.unal.isi.taxi_agent.model.Request;
-
+import co.edu.unal.isi.taxi_agent.logic.Request;
 
 public class JAmbient extends JPanel implements MouseListener {
 	public static final int BLOCKED = 0;
@@ -18,20 +17,20 @@ public class JAmbient extends JPanel implements MouseListener {
 	public static final int SETTING_TAXI_AGENT = 2;
 	public static final int SETTING_REQUESTS = 3;
 	public static final int SETTING_DESTINY = 4;
-	
+
 	public static final Color DISABLED_COLOR = Color.WHITE;
 	public static final Color ROAD_COLOR = Color.DARK_GRAY;
 	public static final Color REQUEST_COLOR = Color.RED;
 	public static final Color TAXI_AGENT_COLOR = Color.BLUE;
 	public static final int GAP = 2;
-	
+
 	private int rows;
 	private int cols;
 	private int state;
 	private JCell[][] grid;
 	private ArrayList<JCell> road = new ArrayList<JCell>();
 	private JInitialFrame initialFrame;
-	
+
 	public JAmbient(int state, int rows, int cols, JInitialFrame initialFrame) {
 		this.state = state;
 		this.initialFrame = initialFrame;
@@ -40,7 +39,7 @@ public class JAmbient extends JPanel implements MouseListener {
 		this.rows = rows;
 		this.cols = cols;
 		grid = new JCell[rows][cols];
-		
+
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				grid[i][j] = new JCell(20, 20, this);
@@ -49,9 +48,9 @@ public class JAmbient extends JPanel implements MouseListener {
 				add(grid[i][j]);
 			}
 		}
-		
-		
+
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (state == SETTING_ROAD) {
@@ -60,25 +59,26 @@ public class JAmbient extends JPanel implements MouseListener {
 				JCell selectedPanel = (JCell) source;
 				int i = selectedPanel.getI();
 				int j = selectedPanel.getJ();
-				
+
 				grid[i][j].setBackground(JAmbient.ROAD_COLOR);
-				
+				road.add(grid[i][j]);
+
 			}
-		}
-		else if(state == SETTING_TAXI_AGENT) {
+		} else if (state == SETTING_TAXI_AGENT) {
 			Object source = e.getSource();
 			if (source instanceof JCell) {
-				
+
 				JCell selectedPanel = (JCell) source;
 				int i = selectedPanel.getI();
 				int j = selectedPanel.getJ();
-				
+
 				grid[i][j].setBackground(Color.RED);
 				setState(BLOCKED);
+				
 			}
-		}
-		else if(state == SETTING_REQUESTS) {
-			int numOfRequests = 3;
+		} else if (state == SETTING_REQUESTS) {
+			int numOfRequests = 
+					initialFrame.getRequestsLocationFrame().getNumberOfRequests();
 			Request[] requests = new Request[numOfRequests];
 			for (int i = 0; i < numOfRequests; i++) {
 				JCell originCell = (JCell) e.getSource();
@@ -87,30 +87,33 @@ public class JAmbient extends JPanel implements MouseListener {
 				JCell destinyCell = (JCell) e.getSource();
 				int i_f = destinyCell.getI(), j_f = destinyCell.getJ();
 				grid[i_o][j_o].setBackground(Color.YELLOW);
-				String strSlots = 
-						JOptionPane.showInputDialog(this, "Enter the number of slots:");
-				int slots = Integer.parseInt(strSlots);
-				requests[i] = new Request(i_o, j_o, slots, i_f, j_f);
+				//String strPassengers = JOptionPane.showInputDialog(this, "Enter the number of passengers:");
+				//int numOfPassengers = Integer.parseInt(strPassengers);
+				//requests[i] = new Request(i_o, j_o, numOfPassengers, i_f, j_f);
+				//System.out.println("req loaded");
 			}
 		}
-		
+
 	}
-	
+
 	public void setState(int state) {
 		this.state = state;
 	}
-	
-	@Override
-	public void mousePressed(MouseEvent e) {}
-	
-	@Override
-	public void mouseReleased(MouseEvent e) {}
-	
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-	
-	@Override
-	public void mouseExited(MouseEvent e) {}
 
-	
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
 }

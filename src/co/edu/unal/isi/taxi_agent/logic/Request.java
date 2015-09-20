@@ -1,14 +1,14 @@
-package co.edu.unal.isi.taxi_agent.model;
+package co.edu.unal.isi.taxi_agent.logic;
 
 public class Request {
 	private int i_initial, j_initial;
-	private int slots;
+	private int numOfPassengers;
 	private int i_final, j_final;
 	
-	public Request(int i_initial, int j_initial, int slots, int i_final, int j_final) {
+	public Request(int i_initial, int j_initial, int numOfPassengers, int i_final, int j_final) {
 		this.i_initial = i_initial;
 		this.j_initial = j_initial;
-		this.slots = slots;
+		this.numOfPassengers = numOfPassengers;
 		this.i_final = i_final;
 		this.j_final = j_final;
 	}
@@ -22,7 +22,7 @@ public class Request {
 	}
 
 	public int getNumberOfPassengers() {
-		return slots;
+		return numOfPassengers;
 	}
 
 	public int getI_final() {
@@ -42,7 +42,7 @@ public class Request {
 	}
 
 	public void setNumberOfPassengers(int numberOfPassengers) {
-		this.slots = numberOfPassengers;
+		this.numOfPassengers = numberOfPassengers;
 	}
 
 	public void setI_final(int i_final) {
