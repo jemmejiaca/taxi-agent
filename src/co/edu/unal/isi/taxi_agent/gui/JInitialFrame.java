@@ -36,10 +36,19 @@ public class JInitialFrame extends JFrame implements ActionListener {
 	
 	private ButtonGroup group = new ButtonGroup();
 	
+	private JAmbient ambient;
+	private JRoadLocationFrame roadLocationFrame;
+	private JAgentLocationFrame agentLocationFrame;
+	private JRequestsLocationFrame requestsLocationFrame;
+	
 	public JInitialFrame() {
 		super("Taxi Agent Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
+		
+//		roadLocationFrame = new JRoadLocationFrame(ambient, this);
+//		agentLocationFrame = new JAgentLocationFrame(ambient, this);
+//		requestsLocationFrame = new JRequestsLocationFrame(ambient, this);
 		
 		panelSize.add(labelRows);
 		panelSize.add(fieldRows);
@@ -65,10 +74,36 @@ public class JInitialFrame extends JFrame implements ActionListener {
 		//pack();
 	}
 	
-	public static void main(String[] args) {
-		JInitialFrame frame = new JInitialFrame();
-		frame.setSize(300, 180);
-		frame.setVisible(true);
+	public JAmbient getAmbient() {
+		return ambient;
+	}
+
+	public JRoadLocationFrame getRoadLocationFrame() {
+		return roadLocationFrame;
+	}
+
+	public JAgentLocationFrame getAgentLocationFrame() {
+		return agentLocationFrame;
+	}
+
+	public JRequestsLocationFrame getRequestsLocationFrame() {
+		return requestsLocationFrame;
+	}
+
+	public void setAmbient(JAmbient ambient) {
+		this.ambient = ambient;
+	}
+
+	public void setRoadLocationFrame(JRoadLocationFrame roadLocationFrame) {
+		this.roadLocationFrame = roadLocationFrame;
+	}
+
+	public void setAgentLocationFrame(JAgentLocationFrame agentLocationFrame) {
+		this.agentLocationFrame = agentLocationFrame;
+	}
+
+	public void setRequestsLocationFrame(JRequestsLocationFrame requestsLocationFrame) {
+		this.requestsLocationFrame = requestsLocationFrame;
 	}
 
 	@Override
@@ -81,13 +116,18 @@ public class JInitialFrame extends JFrame implements ActionListener {
 			int cols = Integer.parseInt(strcols);
 			System.out.printf("rows: %d, cols: %d\n", rows, cols);
 			if(radioButtonKnown.isSelected()) {
+				ambient = new JAmbient(JAmbient.SETTING_ROAD, rows, cols, this);
 				this.setVisible(false);
-				JAgentLocationFrame agentLocationFrame = 
-						new JAgentLocationFrame(rows, cols); 
-				agentLocationFrame.setVisible(true);
-				agentLocationFrame.setSize(500, 500);
+				this.setRoadLocationFrame(new JRoadLocationFrame(ambient, this));
+				this.getRoadLocationFrame().setVisible(true);
 			}
 		}
+	}
+	
+	public static void main(String[] args) {
+		JInitialFrame frame = new JInitialFrame();
+		frame.setSize(300, 180);
+		frame.setVisible(true);
 	}
 
 }
