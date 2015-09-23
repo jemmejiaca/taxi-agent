@@ -1,59 +1,78 @@
 package co.edu.unal.isi.taxi_agent.logic;
 
 public class Request {
-	private int i_initial, j_initial;
+	private int iOrigin, jOrigin;
 	private int numOfPassengers;
-	private int i_final, j_final;
+	private int iFinal, jFinal;
 	
-	public Request(int i_initial, int j_initial, int numOfPassengers, int i_final, int j_final) {
-		this.i_initial = i_initial;
-		this.j_initial = j_initial;
+	public Request(int iOrigin, int jOrigin, int numOfPassengers, int iFinal, int jFinal) {
+		this.iOrigin = iOrigin;
+		this.jOrigin = jFinal;
 		this.numOfPassengers = numOfPassengers;
-		this.i_final = i_final;
-		this.j_final = j_final;
+		this.iFinal = iFinal;
+		this.jFinal = jFinal;
+	}
+	
+	public Request() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public int getI_initial() {
-		return i_initial;
+	public int getIOrigin() {
+		return iOrigin;
 	}
 
-	public int getJ_initial() {
-		return j_initial;
+	public int getJOrigin() {
+		return jOrigin;
 	}
 
 	public int getNumberOfPassengers() {
 		return numOfPassengers;
 	}
 
-	public int getI_final() {
-		return i_final;
+	public int getIFinal() {
+		return iFinal;
 	}
 
-	public int getJ_final() {
-		return j_final;
+	public int getJFinal() {
+		return jFinal;
 	}
 
-	public void setI_initial(int i_initial) {
-		this.i_initial = i_initial;
+	public void setIOrigin(int iOrigin) {
+		this.iOrigin = iOrigin;
 	}
 
-	public void setJ_initial(int j_initial) {
-		this.j_initial = j_initial;
+	public void setJOrigin(int jOrigin) {
+		this.jOrigin = jOrigin;
 	}
 
 	public void setNumberOfPassengers(int numberOfPassengers) {
 		this.numOfPassengers = numberOfPassengers;
 	}
 
-	public void setI_final(int i_final) {
-		this.i_final = i_final;
+	public void setIFinal(int iFinal) {
+		this.iFinal = iFinal;
 	}
 
-	public void setJ_final(int j_final) {
-		this.j_final = j_final;
+	public void setJFinal(int jFinal) {
+		this.jFinal = jFinal;
+	}
+	
+	public void setOrigin(int iOrigin, int jOrigin) {
+		this.iOrigin = iOrigin;
+		this.jOrigin = jOrigin;
+	}
+	
+	public void setFinal(int iFinal, int jFinal) {
+		this.iFinal = iFinal;
+		this.jFinal = jFinal;
+	}
+
+	@Override
+	public String toString() {
+		return "Request [iOrigin=" + iOrigin + ", jOrigin=" + jOrigin + ", numOfPassengers=" + numOfPassengers
+				+ ", iFinal=" + iFinal + ", jFinal=" + jFinal + "]";
 	}
 	
 	
 	
-
 }

@@ -34,6 +34,10 @@ public class JAmbient extends JPanel implements MouseListener {
 	private ArrayList<Request> requests = new ArrayList<Request>();
 	private JInitialFrame initialFrame;
 	
+	
+	private int indexIOrigen = 0;
+	private int indexJOrigen = 0;
+	
 
 	public JAmbient(int state, int rows, int cols, JInitialFrame initialFrame) {
 		this.state = state;
@@ -51,8 +55,9 @@ public class JAmbient extends JPanel implements MouseListener {
 				grid[i][j].setCoordinate(i, j);
 				add(grid[i][j]);
 			}
+			
 		}
-
+		
 	}
 
 	@Override
@@ -67,6 +72,7 @@ public class JAmbient extends JPanel implements MouseListener {
 				grid[i][j].setBackground(JAmbient.ROAD_COLOR);
 				road.add(grid[i][j]);
 
+				
 			}
 		} else if (state == SETTING_TAXI_AGENT) {
 			Object source = e.getSource();
@@ -79,30 +85,34 @@ public class JAmbient extends JPanel implements MouseListener {
 				grid[i][j].setBackground(TAXI_AGENT_COLOR);
 				setState(BLOCKED);
 				
+				
 			}
 		} else if (state == SETTING_REQUESTS) {
-			int iOrigin = 0, jOrigin = 0, numOfPassengers, iFinal, jFinal;
+			int iOrigin = 0, jOrigin = 0 , numOfPassengers, iFinal, jFinal;
+			Request request = new Request();
 			Object source = e.getSource();
 			if (source instanceof JCell) {
 				int i = ((JCell) source).getI(), j = ((JCell) source).getJ();
-				if (grid[i][j].getBackground().equals(ROAD_COLOR) && requestState == BLOCKED) {
+				if (grid[i][j].getBackground().equals(ROAD_COLOR) 
+						&& requestState == BLOCKED) {
 					grid[i][j].setBackground(ORIGIN_COLOR);
 					requestState = ESTABLISHED_ORIGIN;
-					iOrigin = i; jOrigin = j;
+					request.setOrigin(i, j);
 				}
-				else if (grid[i][j].getBackground().equals(ROAD_COLOR) && requestState == ESTABLISHED_ORIGIN) {
+				else if (grid[i][j].getBackground().equals(ROAD_COLOR) 
+						&& requestState == ESTABLISHED_ORIGIN) {
 					grid[i][j].setBackground(DESTINY_COLOR);
 					requestState = BLOCKED;
-					iFinal = i; jFinal = j;
 					numOfPassengers = Integer.parseInt(
 							JOptionPane.showInputDialog(
 									this, "Enter the number of passengers:"));
-					requests.add(new Request(iOrigin, jOrigin, numOfPassengers, iFinal, jFinal));
-					System.out.printf("Added request: %d %d %d %d %d", iOrigin, jOrigin, numOfPassengers, iFinal, jFinal);
+					request.setFinal(i, j);
+					request.setNumberOfPassengers(numOfPassengers);
+					System.out.println(request);
+					requests.add(request);
 				}
 			}
 		}
-
 	}
 
 	public void setState(int state) {
