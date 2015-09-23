@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import co.edu.unal.isi.taxi_agent.logic.Graph;
 import co.edu.unal.isi.taxi_agent.logic.Request;
 
 public class JAmbient extends JPanel implements MouseListener {
@@ -34,10 +35,10 @@ public class JAmbient extends JPanel implements MouseListener {
 	private ArrayList<Request> requests = new ArrayList<Request>();
 	private JInitialFrame initialFrame;
 	
-	
 	private int indexIOrigen = 0;
 	private int indexJOrigen = 0;
 	
+	private Graph camino;
 
 	public JAmbient(int state, int rows, int cols, JInitialFrame initialFrame) {
 		this.state = state;
@@ -57,7 +58,10 @@ public class JAmbient extends JPanel implements MouseListener {
 			}
 			
 		}
-		
+
+		camino = new Graph(rows,cols);
+		System.out.println(state);
+
 	}
 
 	@Override
@@ -71,6 +75,8 @@ public class JAmbient extends JPanel implements MouseListener {
 
 				grid[i][j].setBackground(JAmbient.ROAD_COLOR);
 				road.add(grid[i][j]);
+				
+				camino.addEdge(i, j);
 
 				
 			}
@@ -85,6 +91,8 @@ public class JAmbient extends JPanel implements MouseListener {
 				grid[i][j].setBackground(TAXI_AGENT_COLOR);
 				setState(BLOCKED);
 				
+				camino.getAgent().setPosicion(i, j);
+				camino.print();
 				
 			}
 		} else if (state == SETTING_REQUESTS) {
@@ -98,11 +106,13 @@ public class JAmbient extends JPanel implements MouseListener {
 					grid[i][j].setBackground(ORIGIN_COLOR);
 					requestState = ESTABLISHED_ORIGIN;
 					request.setOrigin(i, j);
+					iOrigin = i; jOrigin = j;
+					indexIOrigen = i; indexJOrigen = j;
 				}
-				else if (grid[i][j].getBackground().equals(ROAD_COLOR) 
-						&& requestState == ESTABLISHED_ORIGIN) {
+				else if ((grid[i][j].getBackground().equals(ROAD_COLOR) || grid[i][j].getBackground().equals(DESTINY_COLOR)) && requestState == ESTABLISHED_ORIGIN) {
 					grid[i][j].setBackground(DESTINY_COLOR);
 					requestState = BLOCKED;
+					iFinal = i; jFinal = j;
 					numOfPassengers = Integer.parseInt(
 							JOptionPane.showInputDialog(
 									this, "Enter the number of passengers:"));
@@ -110,6 +120,10 @@ public class JAmbient extends JPanel implements MouseListener {
 					request.setNumberOfPassengers(numOfPassengers);
 					System.out.println(request);
 					requests.add(request);
+					//es mas conveniente tener este ArrayList dentro de la clase Grafo
+					//requests.add(new Request(indexIOrigen, indexJOrigen, numOfPassengers, iFinal, jFinal));
+					camino.getPeticiones().add(new Request(indexIOrigen, indexJOrigen, numOfPassengers, iFinal, jFinal));
+					System.out.printf("Added request: %d %d %d %d %d", indexIOrigen, indexJOrigen, numOfPassengers, iFinal, jFinal);
 				}
 			}
 		}
@@ -117,6 +131,11 @@ public class JAmbient extends JPanel implements MouseListener {
 
 	public void setState(int state) {
 		this.state = state;
+	}
+	
+	public Graph getCamino()
+	{
+		return camino;
 	}
 
 	@Override

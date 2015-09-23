@@ -37,6 +37,9 @@ public class JRequestsLocationFrame extends JFrame implements ActionListener {
 		Object source = e.getSource();
 		if (source == buttonOK) {
 			JOptionPane.showMessageDialog(this, "That's all, let's work on it!");
+			
+			ambient.getCamino().shortestPath();
+			System.out.println("Shortest path con éxito, pintar camino seguido");
 		}
 	}
 	
