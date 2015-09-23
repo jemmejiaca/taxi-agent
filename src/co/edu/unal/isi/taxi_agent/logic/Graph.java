@@ -115,7 +115,7 @@ public class Graph
 			int i = colaRow.removeFirst();
 			int j = colaCol.removeFirst();
 			
-			if (i==peticiones.get(0).getI_initial() && j==peticiones.get(0).getJ_initial())
+			if (i==peticiones.get(0).getIOrigin() && j==peticiones.get(0).getJOrigin())
 			{
 				if (state==0)
 				{
@@ -128,7 +128,7 @@ public class Graph
 				}
 			}
 			
-			if (i==peticiones.get(0).getI_final() && j==peticiones.get(0).getJ_final() && state==1)
+			if (i==peticiones.get(0).getIFinal() && j==peticiones.get(0).getJFinal() && state==1)
 			{
 				//vaciar cupo del taxi
 				tmp = 2;
@@ -200,8 +200,8 @@ public class Graph
 			{
 				state = 1;
 				agent.setCupoActual(TaxiAgent.CUPO-peticiones.get(0).getNumberOfPassengers());
-				agent.setPosI(peticiones.get(0).getI_initial());
-				agent.setPosJ(peticiones.get(0).getJ_initial());
+				agent.setPosI(peticiones.get(0).getIOrigin());
+				agent.setPosJ(peticiones.get(0).getJOrigin());
 				shortestPath();
 			}
 		}
@@ -210,8 +210,8 @@ public class Graph
 			tmp = 0;
 			state = 0;
 			agent.setCupoActual(TaxiAgent.CUPO);
-			agent.setPosI(peticiones.get(0).getI_final());
-			agent.setPosJ(peticiones.get(0).getJ_final());
+			agent.setPosI(peticiones.get(0).getIFinal());
+			agent.setPosJ(peticiones.get(0).getJFinal());
 			peticiones.remove(0);
 			if(!(peticiones.isEmpty()))
 			{
