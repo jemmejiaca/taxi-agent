@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,7 +32,7 @@ public class JAmbient extends JPanel implements MouseListener {
 	private Situation situation;
 	private JInitialFrame initialFrame;
 	private Position startRequestPosition = new Position();;
-	private Graph camino;
+	private Graph graph;
 
 	public JAmbient(int state, int rows, int cols, JInitialFrame initialFrame) {
 		this.rows = rows;
@@ -55,7 +54,7 @@ public class JAmbient extends JPanel implements MouseListener {
 			}
 		}
 
-		camino = new Graph(rows,cols);
+		graph = new Graph(rows,cols);
 		System.out.println(state);
 	}
 
@@ -74,7 +73,7 @@ public class JAmbient extends JPanel implements MouseListener {
 				road.addPosition(selectedCellPosition);
 				situation.setInputRoad(road);
 				
-				camino.addEdge(i, j);
+				graph.addEdge(i, j);
 
 				
 			}
@@ -90,10 +89,11 @@ public class JAmbient extends JPanel implements MouseListener {
 				grid[i][j].setBackground(TAXI_AGENT_COLOR);
 				setState(BLOCKED);
 				
-				camino.getAgent().setPosition(selectedCellPosition);;
-				camino.print();
+				graph.getAgent().setPosition(selectedCellPosition);;
+				graph.print();
 			}
 		} else if (state == SETTING_REQUESTS) {
+			System.out.println("a new request");
 			int numOfPassengers, iFinal, jFinal;
 			Request request = new Request();
 			Position selectedCellPosition;
@@ -103,13 +103,16 @@ public class JAmbient extends JPanel implements MouseListener {
 				selectedCellPosition = selectedCell.getPosition();
 				int i = selectedCellPosition.getI();
 				int j = selectedCellPosition.getJ();
+				System.out.println(i + ", " + j);
 				startRequestPosition.setI(i);
 				startRequestPosition.setJ(j);
+				request.setStartPosition(startRequestPosition);
+				System.out.println(startRequestPosition);
 				if (grid[i][j].getBackground().equals(ROAD_COLOR) 
 						&& requestState == BLOCKED) {
+					System.out.println("lets put the colors [if]");
 					grid[i][j].setBackground(ORIGIN_COLOR);
 					requestState = ESTABLISHED_ORIGIN;
-					request.setStartPosition(startRequestPosition);
 				}
 				else if ((grid[i][j].getBackground().equals(ROAD_COLOR) || grid[i][j].getBackground().equals(DESTINY_COLOR)) && requestState == ESTABLISHED_ORIGIN) {
 					grid[i][j].setBackground(DESTINY_COLOR);
@@ -121,9 +124,8 @@ public class JAmbient extends JPanel implements MouseListener {
 					request.setRequestedQuota(numOfPassengers);
 					System.out.println(request);
 					situation.getRequests().add(request);
-					//es mas conveniente tener este ArrayList dentro de la clase Grafo
-					//requests.add(new Request(indexIOrigen, indexJOrigen, numOfPassengers, iFinal, jFinal));
-					//camino.getPeticiones().add(new Request(indexIOrigen, indexJOrigen, numOfPassengers, iFinal, jFinal));
+					// Es mas conveniente tener este ArrayList dentro de la clase Graph
+					graph.getPeticiones().add(request);
 					System.out.print(request);
 				}
 			}
@@ -136,7 +138,7 @@ public class JAmbient extends JPanel implements MouseListener {
 	
 	public Graph getCamino()
 	{
-		return camino;
+		return graph;
 	}
 
 	@Override

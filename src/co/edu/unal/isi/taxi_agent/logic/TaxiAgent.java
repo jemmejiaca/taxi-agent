@@ -5,11 +5,14 @@ public class TaxiAgent {
 	private Position position;
 	private int quota;
 	
-	public TaxiAgent() { }
-	
 	public TaxiAgent(Position position, int quota) {
 		this.position = position;
 		this.quota = quota;
+	}
+	
+	public TaxiAgent() {
+		position = new Position();
+		quota = 0;
 	}
 	
 	public Position getPosition() {

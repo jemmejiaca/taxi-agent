@@ -8,7 +8,7 @@ public class Position {
 	}
 	
 	public Position() {
-		i = -1; j = -1;
+		i = 0; j = 0;
 	}
 
 	public int getI() {

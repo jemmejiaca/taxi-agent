@@ -17,9 +17,9 @@ public class Situation {
 	}
 	
 	public Situation() {
-		this.inputRoad = null;
-		this.taxiAgent = null;
-		this.requests = null;
+		this.inputRoad = new RoadMap();
+		this.taxiAgent = new TaxiAgent();
+		this.requests = new ArrayList<Request>();
 	}
 
 	public RoadMap getInputRoad() {
