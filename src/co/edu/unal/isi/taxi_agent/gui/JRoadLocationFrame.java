@@ -28,7 +28,8 @@ public class JRoadLocationFrame extends JFrame implements ActionListener {
 		add(buttonInputRoad, BorderLayout.SOUTH);
 		
 		setSize(500, 500);
-		//setVisible(true);
+		setLocationRelativeTo(null);
+		
 	}
 
 	@Override

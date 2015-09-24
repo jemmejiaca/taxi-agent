@@ -44,6 +44,7 @@ public class JInitialFrame extends JFrame implements ActionListener {
 	public JInitialFrame() {
 		super("Taxi Agent Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		setLayout(new BorderLayout());
 		
 //		roadLocationFrame = new JRoadLocationFrame(ambient, this);
@@ -71,7 +72,8 @@ public class JInitialFrame extends JFrame implements ActionListener {
 		add(labelTitle, BorderLayout.NORTH);
 		add(panelInitInfo, BorderLayout.CENTER);
 		add(buttonOK, BorderLayout.SOUTH);
-		//pack();
+		pack();
+		setLocationRelativeTo(null);
 	}
 	
 	public JAmbient getAmbient() {

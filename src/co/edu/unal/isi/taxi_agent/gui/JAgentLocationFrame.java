@@ -19,6 +19,7 @@ public class JAgentLocationFrame extends JFrame implements ActionListener {
 	public JAgentLocationFrame(JAmbient ambient, JInitialFrame initialFrame) {
 		super("Agent Location");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		this.initialFrame = initialFrame;
 		
 		this.ambient = ambient;
@@ -30,6 +31,7 @@ public class JAgentLocationFrame extends JFrame implements ActionListener {
 		add(buttonOK, BorderLayout.SOUTH);
 		
 		setSize(500, 500);
+		setLocationRelativeTo(null);
 		//setVisible(true);
 	}
 

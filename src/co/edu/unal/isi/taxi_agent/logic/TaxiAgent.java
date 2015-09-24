@@ -1,47 +1,36 @@
 package co.edu.unal.isi.taxi_agent.logic;
 
-public class TaxiAgent 
-{
-	private int PosI;
-	private int PosJ;
-	private int cupoActual = 0;
-	static final int CUPO = 4;
+public class TaxiAgent {
+	static final int MAX_QUOTA = 12;
+	private Position position;
+	private int quota;
 	
-	public TaxiAgent(){}
+	public TaxiAgent() { }
 	
-	public TaxiAgent(int posI, int posJ) {
-		PosI = posI;
-		PosJ = posJ;
-		cupoActual = 0;
-	}
-
-	public int getPosI() {
-		return PosI;
+	public TaxiAgent(Position position, int quota) {
+		this.position = position;
+		this.quota = quota;
 	}
 	
-	public void setPosI(int posI) {
-		PosI = posI;
+	public Position getPosition() {
+		return position;
 	}
 
-	public int getPosJ() {
-		return PosJ;
+	public int getQuota() {
+		return quota;
 	}
 
-	public void setPosJ(int posJ) {
-		PosJ = posJ;
-	}
-	
-	public void setPosicion(int posI,int posJ) {
-		PosI = posI;
-		PosJ = posJ;
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
-	public int getCupoActual() {
-		return cupoActual;
+	public void setQuota(int quota) {
+		this.quota = quota;
 	}
 
-	public void setCupoActual(int cupoActual) {
-		this.cupoActual = cupoActual;
-	} 
+	public int getRemainingQuota() {
+		return MAX_QUOTA - quota;
+	}
+
 
 }

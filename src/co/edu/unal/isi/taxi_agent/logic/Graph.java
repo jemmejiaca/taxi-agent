@@ -92,7 +92,7 @@ public class Graph
 		
 		boolean visit[][] = new boolean[this.rows][this.cols];
 		
-		int iTaxi = agent.getPosI(), jTaxi = agent.getPosJ(); 
+		int iTaxi = agent.getPosition().getI(), jTaxi = agent.getPosition().getJ(); 
 		
 		for(int i=0;i<this.rows;i++)
 		{
@@ -115,7 +115,7 @@ public class Graph
 			int i = colaRow.removeFirst();
 			int j = colaCol.removeFirst();
 			
-			if (i==peticiones.get(0).getIOrigin() && j==peticiones.get(0).getJOrigin())
+			if (i==peticiones.get(0).getStartPosition().getI() && j==peticiones.get(0).getStartPosition().getJ())
 			{
 				if (state==0)
 				{
@@ -128,7 +128,7 @@ public class Graph
 				}
 			}
 			
-			if (i==peticiones.get(0).getIFinal() && j==peticiones.get(0).getJFinal() && state==1)
+			if (i==peticiones.get(0).getEndPosition().getI() && j==peticiones.get(0).getEndPosition().getJ() && state==1)
 			{
 				//vaciar cupo del taxi
 				tmp = 2;
@@ -199,19 +199,21 @@ public class Graph
 			if(!(peticiones.isEmpty()))
 			{
 				state = 1;
-				agent.setCupoActual(TaxiAgent.CUPO-peticiones.get(0).getNumberOfPassengers());
-				agent.setPosI(peticiones.get(0).getIOrigin());
-				agent.setPosJ(peticiones.get(0).getJOrigin());
+				agent.setQuota(TaxiAgent.MAX_QUOTA - peticiones.get(0).getRequestedQuota());
+				agent.setPosition(new Position(
+						peticiones.get(0).getStartPosition().getI(),
+						peticiones.get(0).getStartPosition().getJ()));
 				shortestPath();
 			}
 		}
-		else if(tmp==2)
+		else if(tmp == 2)
 		{
 			tmp = 0;
 			state = 0;
-			agent.setCupoActual(TaxiAgent.CUPO);
-			agent.setPosI(peticiones.get(0).getIFinal());
-			agent.setPosJ(peticiones.get(0).getJFinal());
+			agent.setQuota(TaxiAgent.MAX_QUOTA);
+			agent.setPosition(new Position(
+					peticiones.get(0).getEndPosition().getI(),
+					peticiones.get(0).getEndPosition().getJ()));
 			peticiones.remove(0);
 			if(!(peticiones.isEmpty()))
 			{

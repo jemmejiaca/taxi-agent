@@ -18,7 +18,9 @@ public class JRequestsLocationFrame extends JFrame implements ActionListener {
 	public JRequestsLocationFrame(JAmbient ambient, JInitialFrame initialFrame) {
 		super("Requests selector");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		this.initialFrame = initialFrame;
+		
 		buttonOK.addActionListener(this);
 		this.ambient = ambient;
 		this.ambient.setState(JAmbient.SETTING_REQUESTS);
@@ -29,6 +31,7 @@ public class JRequestsLocationFrame extends JFrame implements ActionListener {
 		add(buttonOK, BorderLayout.SOUTH);
 	
 		setSize(500, 500);
+		setLocationRelativeTo(null);
 		//setVisible(true);
 	}
 
@@ -39,7 +42,7 @@ public class JRequestsLocationFrame extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, "That's all, let's work on it!");
 			
 			ambient.getCamino().shortestPath();
-			System.out.println("Shortest path con éxito, pintar camino seguido");
+			System.out.println("Shortest path con ï¿½xito, pintar camino seguido");
 		}
 	}
 	

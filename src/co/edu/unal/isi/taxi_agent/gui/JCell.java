@@ -6,10 +6,12 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import co.edu.unal.isi.taxi_agent.logic.Position;
+
 public class JCell extends JPanel {
 
 	private int width, height;
-	private int i, j;
+	private Position position;
 	JAmbient ambient;
 	
 	public JCell(int width, int height, JAmbient ambient) {
@@ -19,17 +21,12 @@ public class JCell extends JPanel {
 		setSize(this.width, this.height);
 	}
 	
-	public void setCoordinate(int i, int j) {
-		this.i = i;
-		this.j = j;
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 	
-	public int getI() {
-		return i;
-	}
-	
-	public int getJ() {
-		return j;
+	public Position getPosition() {
+		return position;
 	}
 
 }
