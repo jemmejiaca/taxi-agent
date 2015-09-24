@@ -69,18 +69,16 @@ public class Graph
 		this.padres = padres;
 	}
 
-	public void print()
-	{
-			System.out.print(" ");
-			for(int i = 0; i < this.cols; i++)
-			{
-				System.out.printf("  %3d", i);
+	public void print() {
+			System.out.print("    ");
+			for(int i = 0; i < this.cols; i++) {
+				System.out.printf(" %3d", i);
 			}
 			System.out.println();
-			for( int i = 0; i < this.rows; i++){
+			for( int i = 0; i < this.rows; i++) {
 				System.out.printf(" %3d", i);
-				for(int j = 0; j < this.cols; j++){
-					System.out.printf(" %3d" ,grafo[i][j]);
+				for(int j = 0; j < this.cols; j++) {
+					System.out.printf(" %3d" , grafo[i][j]);
 				}
 				System.out.println();
 			}
