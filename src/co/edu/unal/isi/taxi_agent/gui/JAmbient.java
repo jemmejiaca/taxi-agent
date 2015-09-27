@@ -55,7 +55,7 @@ public class JAmbient extends JPanel implements MouseListener {
 		}
 
 		graph = new Graph(rows, cols);
-		System.out.println(state);
+		//System.out.println(state);
 	}
 
 	@Override
@@ -72,7 +72,8 @@ public class JAmbient extends JPanel implements MouseListener {
 				grid[i][j].setBackground(JAmbient.ROAD_COLOR);
 				road.addPosition(selectedCellPosition);
 				situation.setInputRoad(road);
-
+				
+				//en mi ejemplo hacer solo caso al grafo que construí
 				graph.addEdge(i, j);
 
 			}
@@ -86,15 +87,17 @@ public class JAmbient extends JPanel implements MouseListener {
 				System.out.println("Agent setted at: " + selectedCellPosition);
 				int i = selectedCellPosition.getI();
 				int j = selectedCellPosition.getJ();
-				grid[i][j].setBackground(TAXI_AGENT_COLOR);
+				grid[i][j].setBackground(TAXI_AGENT_COLOR); //pintar la casilla del taxi
 				taxiAgent.setPosition(selectedCellPosition);
 				situation.setTaxiAgent(taxiAgent);
 				setState(BLOCKED);
-				graph.getAgent().setPosition(selectedCellPosition);
+				graph.getAgent().setPosition(selectedCellPosition); //mi taxi en el grafo
 				graph.print();
 				System.out.println(taxiAgent);
 			}
-		} else if (state == SETTING_REQUESTS) {
+		} 
+		else if (state == SETTING_REQUESTS) 
+		{
 			int numOfPassengers;
 			
 			Position startPosition, endPosition;
@@ -105,18 +108,20 @@ public class JAmbient extends JPanel implements MouseListener {
 				startPosition = selectedCell.getPosition();
 				int startI = startPosition.getI();
 				int startJ = startPosition.getJ();
-				if (requestState == BLOCKED 
-						&& grid[startI][startJ].getBackground().equals(ROAD_COLOR)) {
-					grid[startI][startJ].setBackground(ORIGIN_COLOR);
+				if (requestState == BLOCKED && grid[startI][startJ].getBackground().equals(ROAD_COLOR)) 
+				{
+					grid[startI][startJ].setBackground(ORIGIN_COLOR); //coloreando la celda de la peticion(donde está el pasajero)
 					tmpRequest.setStartPosition(startPosition);
 					requestState = ESTABLISHED_ORIGIN;
-				} else if (requestState == ESTABLISHED_ORIGIN) {
+				}
+				else if (requestState == ESTABLISHED_ORIGIN) 
+				{
 					endPosition = selectedCell.getPosition();
 					int endI = endPosition.getI();
 					int endJ = endPosition.getJ();
-					if (grid[endI][endJ].getBackground().equals(ROAD_COLOR)
-							|| grid[endI][endJ].getBackground().equals(DESTINY_COLOR)) {
-						grid[endI][endJ].setBackground(DESTINY_COLOR);
+					if (grid[endI][endJ].getBackground().equals(ROAD_COLOR) || grid[endI][endJ].getBackground().equals(DESTINY_COLOR)) 
+					{
+						grid[endI][endJ].setBackground(DESTINY_COLOR); //coloreando la celda del destino(donde hay que llevar al pasajero)
 						tmpRequest.setEndPosition(endPosition);
 						System.out.println("end=" + grid[endI][endJ].getPosition());
 						numOfPassengers = Integer.parseInt(
@@ -127,11 +132,15 @@ public class JAmbient extends JPanel implements MouseListener {
 						// Es mas conveniente tener este ArrayList dentro de la
 						// clase Graph
 						graph.getPeticiones().add(tmpRequest);
+						
 						System.out.println(tmpRequest);
 						requestState = BLOCKED;
+						
+						//darle nueva memoria
+						tmpRequest = new Request();
+					}
 				}
 			}
-				}
 		}
 	}
 
@@ -193,6 +202,14 @@ public class JAmbient extends JPanel implements MouseListener {
 
 	public void setGrid(JCell[][] grid) {
 		this.grid = grid;
+	}
+
+	public Situation getSituation() {
+		return situation;
+	}
+
+	public void setSituation(Situation situation) {
+		this.situation = situation;
 	}
 
 }

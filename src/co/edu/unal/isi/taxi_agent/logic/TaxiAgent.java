@@ -34,6 +34,10 @@ public class TaxiAgent {
 	public int getRemainingQuota() {
 		return MAX_QUOTA - quota;
 	}
-
-
+	
+	@Override
+	public String toString()
+	{
+		return "Agent Position: ("+position.getI()+","+position.getJ()+")";
+	}
 }
