@@ -1,10 +1,12 @@
 package co.edu.unal.isi.taxi_agent.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -29,7 +31,7 @@ public class JAmbient extends JPanel implements MouseListener {
 	private int rows, cols;
 	private int state, requestState;
 	private JCell[][] grid;
-	private Situation situation;
+	private SituationSolver situation;
 	private JInitialFrame initialFrame;
 	private Graph graph;
 	Request tmpRequest = new Request();		// Just a temporal request
@@ -40,7 +42,7 @@ public class JAmbient extends JPanel implements MouseListener {
 		this.state = state;
 		this.requestState = BLOCKED;
 		this.grid = new JCell[rows][cols];
-		this.situation = new Situation();
+		this.situation = new SituationSolver();
 		this.initialFrame = initialFrame;
 		setLayout(new GridLayout(rows, cols, GAP, GAP));
 		setBackground(Color.BLACK);
@@ -49,6 +51,7 @@ public class JAmbient extends JPanel implements MouseListener {
 			for (int j = 0; j < cols; j++) {
 				grid[i][j] = new JCell(20, 20, this);
 				grid[i][j].addMouseListener(this);
+				grid[i][j].setToolTipText("(" + i + ", " + j + ")");
 				grid[i][j].setPosition(new Position(i, j));
 				add(grid[i][j]);
 			}
@@ -67,11 +70,12 @@ public class JAmbient extends JPanel implements MouseListener {
 			if (source instanceof JCell) {
 				JCell selectedPanel = (JCell) source;
 				selectedCellPosition = selectedPanel.getPosition();
+				selectedCellPosition.setRoad(true);
 				int i = selectedCellPosition.getI();
 				int j = selectedCellPosition.getJ();
 				grid[i][j].setBackground(JAmbient.ROAD_COLOR);
 				road.addPosition(selectedCellPosition);
-				situation.setInputRoad(road);
+				situation.setRoad(road);
 
 				graph.addEdge(i, j);
 
@@ -83,12 +87,14 @@ public class JAmbient extends JPanel implements MouseListener {
 			if (source instanceof JCell) {
 				JCell selectedCell = (JCell) source;
 				selectedCellPosition = selectedCell.getPosition();
+				selectedCell.add(new JLabel("[23, 56]"), BorderLayout.CENTER);
 				System.out.println("Agent setted at: " + selectedCellPosition);
 				int i = selectedCellPosition.getI();
 				int j = selectedCellPosition.getJ();
 				grid[i][j].setBackground(TAXI_AGENT_COLOR);
 				taxiAgent.setPosition(selectedCellPosition);
-				situation.setTaxiAgent(taxiAgent);
+				taxiAgent.setAmbient(this);
+				situation.setAgent(taxiAgent);
 				setState(BLOCKED);
 				graph.getAgent().setPosition(selectedCellPosition);
 				graph.print();
@@ -101,22 +107,30 @@ public class JAmbient extends JPanel implements MouseListener {
 			Object source = e.getSource();
 
 			if (source instanceof JCell) {
+				
 				JCell selectedCell = (JCell) source;
 				startPosition = selectedCell.getPosition();
 				int startI = startPosition.getI();
 				int startJ = startPosition.getJ();
+				
 				if (requestState == BLOCKED 
 						&& grid[startI][startJ].getBackground().equals(ROAD_COLOR)) {
+					
 					grid[startI][startJ].setBackground(ORIGIN_COLOR);
+					startPosition.setStartRequest(true);
 					tmpRequest.setStartPosition(startPosition);
 					requestState = ESTABLISHED_ORIGIN;
 				} else if (requestState == ESTABLISHED_ORIGIN) {
+					
 					endPosition = selectedCell.getPosition();
 					int endI = endPosition.getI();
 					int endJ = endPosition.getJ();
+					
 					if (grid[endI][endJ].getBackground().equals(ROAD_COLOR)
 							|| grid[endI][endJ].getBackground().equals(DESTINY_COLOR)) {
+						
 						grid[endI][endJ].setBackground(DESTINY_COLOR);
+						endPosition.setEndRequest(true);
 						tmpRequest.setEndPosition(endPosition);
 						System.out.println("end=" + grid[endI][endJ].getPosition());
 						numOfPassengers = Integer.parseInt(
@@ -124,14 +138,13 @@ public class JAmbient extends JPanel implements MouseListener {
 										+ " of passengers of this request:"));
 						tmpRequest.setRequestedQuota(numOfPassengers);
 						situation.getRequests().add(tmpRequest);
-						// Es mas conveniente tener este ArrayList dentro de la
-						// clase Graph
 						graph.getPeticiones().add(tmpRequest);
 						System.out.println(tmpRequest);
+						situation.algorithm01();
 						requestState = BLOCKED;
+					}
 				}
 			}
-				}
 		}
 	}
 

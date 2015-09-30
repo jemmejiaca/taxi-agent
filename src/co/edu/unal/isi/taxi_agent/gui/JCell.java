@@ -1,9 +1,5 @@
 package co.edu.unal.isi.taxi_agent.gui;
 
-import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.JPanel;
 
 import co.edu.unal.isi.taxi_agent.logic.Position;
