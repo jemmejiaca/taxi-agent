@@ -202,6 +202,8 @@ public class Graph
 			
 			//System.out.println("New Agent position: "+newi+" "+newj);
 			
+			agent.sumQuota(primeraPeticion.getRequestedQuota());
+			
 			agent.getPosition().setI(newi);
 			agent.getPosition().setJ(newj);
 			
@@ -324,6 +326,8 @@ public class Graph
 			int newj = primeraPeticion.getEndPosition().getJ();
 			
 			//System.out.println("New Agent position: "+newi+" "+newj);
+			
+			agent.restQuota(primeraPeticion.getRequestedQuota());
 			
 			agent.getPosition().setI(newi);
 			agent.getPosition().setJ(newj);

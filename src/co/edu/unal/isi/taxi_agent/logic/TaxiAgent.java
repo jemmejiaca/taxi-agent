@@ -1,9 +1,9 @@
 package co.edu.unal.isi.taxi_agent.logic;
 
 public class TaxiAgent {
-	static final int MAX_QUOTA = 12;
+	public static final int MAX_QUOTA = 12;
 	private Position position;
-	private int quota;
+	private int quota = 0;
 	
 	public TaxiAgent(Position position, int quota) {
 		this.position = position;
@@ -29,6 +29,14 @@ public class TaxiAgent {
 
 	public void setQuota(int quota) {
 		this.quota = quota;
+	}
+	
+	public void sumQuota(int newQuota) {
+		this.quota += newQuota;
+	}
+	
+	public void restQuota(int newQuota) {
+		this.quota -= newQuota;
 	}
 
 	public int getRemainingQuota() {
